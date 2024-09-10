@@ -4,7 +4,6 @@
 
 // import packages
 #include <iostream>
-#include <vector>
 #include <string>
 #include <armadillo>
 // ... and define namespaces
