@@ -7,7 +7,7 @@
 #include <string>
 #include <fstream>
 #include <iomanip>
-#include <armadillo>
+#include "../build/armadillo_build/tmp/include/armadillo"
 #include <cmath>
 
 // define namespaces
@@ -25,6 +25,22 @@ double u(double x, double xmin, double xmax) {
     }
 }
 
+string generateDataString(const arma::vec& xvals, const arma::vec& uvals, int width, int prec) {
+    ostringstream oss; // Create an output string stream (oss)
+
+    // Write the header
+    oss << "x" << " " << "u" << std::endl;
+
+    // Write the data
+    for (size_t i = 0; i < xvals.n_elem; ++i) {
+        oss << std::setw(width) << std::setprecision(prec) << std::scientific << xvals(i)
+            << std::setw(width) << std::setprecision(prec) << std::scientific << uvals(i) << std::endl;
+    }
+
+    // Return the string with the data
+    return oss.str();
+}
+
 // define main
 int main() {
 
@@ -32,10 +48,10 @@ int main() {
     double xmin = 0.;
     double xmax = 1.;
 
-    arma::vec xvals = linspace<vec>(xmin, xmax, 100);
+    vec xvals = linspace<vec>(xmin, xmax, 100);
     
     // create discretized u values
-    arma::vec uvals = zeros<vec>(xvals.n_elem);
+    vec uvals = zeros<vec>(xvals.n_elem);
     for (int i = 0; i < xvals.n_elem; i++) {
         uvals(i) = u(xvals(i), xmin, xmax);
     }
@@ -44,23 +60,9 @@ int main() {
     int width = 15;
     int prec = 8;
 
-    ofstream file("problem2data.txt");
-    if (file.is_open()) {
-        file << "x" << " " << "u" << endl;
-        for (int i = 0; i < xvals.n_elem; i++) {
-            file << std::setw(width) << std::setprecision(prec) << std::scientific << xvals(i) 
-                << std::setw(width) << std::setprecision(prec) << std::scientific << uvals(i) << endl;
-        }
-        file.close();
-    } else {
-        cout << "Error opening file" << endl;
-    }
-    //for (int i = 0; i < xvals.n_elem; i++) {
-    //    myfile << std::setw(width) << std::setprecision(prec) << std::scientific << xvals(i) 
-    //           << std::setw(width) << std::setprecision(prec) << std::scientific << uvals(i) << endl;
-
-    //}
-    //myfile.close();
+    string dataString = generateDataString(xvals, uvals, width, prec);
+    
+    cout << dataString << endl;
 
     return 0;
 }
