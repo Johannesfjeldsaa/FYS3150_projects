@@ -1,1 +1,4 @@
-To run code in project 1 navigate to the folder Project1 and rund ./all.sh. Then plot from plotting.ipynb.
+See the individual projects/projectInfo for more elaborate ReadMe files. 
+
+- project 2: Project2/projectInfo/README.md
+
