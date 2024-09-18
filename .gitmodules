@@ -1,0 +1,6 @@
+[submodule "external/armadillo"]
+	path = external/armadillo
+	url = https://github.com/conradsnicta/armadillo-code.git
+[submodule "externals/armadillo"]
+	path = externals/armadillo
+	url = https://gitlab.com/conradsnicta/armadillo-code.git
