@@ -1,0 +1,6 @@
+dependencies:
+  - python=3.11  # Specify the Python version you're using
+  - pandas
+  - matplotlib
+  - seaborn
+  - numpy
