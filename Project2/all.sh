@@ -1,6 +1,4 @@
 #! /bin/sh
 
-./.sh/configure.sh
-./.sh/build.sh
-./.sh/run.sh
+./.sh/configure.sh && ./.sh/build.sh && ./.sh/run.sh
 
