@@ -2,8 +2,10 @@
 // The particle object
 //
 
+// ------------------
 // import packages
-#include "Particle.h"
+// ------------------
+#include "Particle.hpp"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -11,22 +13,36 @@
 #include "../build/armadillo_build/tmp/include/armadillo"
 #include <cmath>
 
+// --------------------
 // define namespaces
+// --------------------
 using namespace std;
 using namespace arma;
 
+// --------------
+// Constructor
+// --------------
+Particle::Particle(
+      // public
+      double q,                   // charge, unit: Coulomb
+      double m,                   // mass, unit: atomic mass unit
+      vec position,               // position vector, unit: micrometer
+      vec velocity                // velocity vector, unit: micrometer/microsecond
+   ) : 
+      q(q), 
+      m(m), 
+      position(position), 
+      velocity(velocity) 
+   {
+   }
 
-// define constants
-const double pi = M_PI;
-
-void dummy(int k) {
-	cout << k << endl;
+// ----------
+// Methods
+// ----------
+// Print the particle
+void Particle::print_particle() const {
+   cout << "charge, q: " << q << endl;
+   cout << "mass, m: " << m << endl;
+   cout << "position, position: " << endl << position << endl;
+   cout << "velocity, velocity: " << endl << velocity << endl;
 }
-
-#ifdef COMPILE_AS_MAIN
-int main () {
-
-   return 0 
-
-}
-#endif
