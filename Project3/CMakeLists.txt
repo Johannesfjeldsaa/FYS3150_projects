@@ -38,6 +38,7 @@ add_executable(problem_9 solutions/problem_9.cpp)
 
 
 foreach(exec problem_9)#test problem_8)# main)
+    target_compile_options(${exec} PRIVATE -O2)
     target_link_libraries(${exec}
         Particle_lib
         PenningTrap_lib

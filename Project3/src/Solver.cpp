@@ -68,6 +68,7 @@ void Solver::forward_euler_step(PenningTrap& trap) {
     }
 
     t += h;
+    trap.t = t;
 }
 
 
@@ -90,6 +91,9 @@ void Solver::rk4_step(PenningTrap& trap) {
     // to calculate k_r2/k_v2 we need to step the system temporarily half a step forward
     // and estimate the position/velocity using k_r1/k_v1
     PenningTrap temporary_trap = trap;
+    if ( temporary_trap.time_dependent_applied_potential ) {
+        temporary_trap.t += 0.5 * h;
+    }
     for (int i = 0; i < num_particles; i++) {
         temporary_trap.particles[i].position += k_r1[i] * 0.5;
         temporary_trap.particles[i].velocity += k_v1[i] * 0.5;
@@ -106,6 +110,9 @@ void Solver::rk4_step(PenningTrap& trap) {
     // to calculate k_r3/k_v3 we need to step the system temporarily half a step forward
     // and estimate the position/velocity using k_r2/k_v2
     temporary_trap = trap;
+    if ( temporary_trap.time_dependent_applied_potential ) {
+        temporary_trap.t += 0.5 * h;
+    }
     for (int i = 0; i < num_particles; i++) {
         temporary_trap.particles[i].position += k_r2[i] * 0.5;
         temporary_trap.particles[i].velocity += k_v2[i] * 0.5;
@@ -122,6 +129,9 @@ void Solver::rk4_step(PenningTrap& trap) {
     // to calculate k_r4/k_v4 we need to step the system temporarily a whole step forward
     // and estimate the position/velocity using k_r3/k_v3
     temporary_trap = trap;
+    if ( temporary_trap.time_dependent_applied_potential ) {
+        temporary_trap.t += h;
+    }
     for (int i = 0; i < num_particles; i++) {
         temporary_trap.particles[i].position += k_r3[i];
         temporary_trap.particles[i].velocity += k_v3[i];
@@ -142,7 +152,7 @@ void Solver::rk4_step(PenningTrap& trap) {
     }
 
     t += h;
-
+    trap.t = t;
 }
 
 void Solver::set_step_function(string method) {
@@ -158,10 +168,6 @@ void Solver::set_step_function(string method) {
 void Solver::simulate(PenningTrap& trap) {
     for (int i = 0; i < n_steps; ++i) {
         step_function(trap);
-
-        cout << trap.particles[0].position << endl;
-        // Here you can add code to save the state of the system,
-        // e.g., particle positions and velocities
     }
 }
 

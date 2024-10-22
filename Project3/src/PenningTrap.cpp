@@ -29,22 +29,36 @@ double k_e = 1.38935333e+5;         // Boltzmann constant in (u * micron³) / (m
 // Constructor
 // --------------
 PenningTrap::PenningTrap(
-   // public
-   double B0,                      // magnetic field strength, unit: Tesla      
-   double V0_d2,                   // applied potential over d squared 
-   vector<Particle> particles,     // list of particles
-   bool interacting_particles       // interaction between particles on or of
-   ) :
-      B0(B0), 
-      V0_d2(V0_d2),
-      interacting_particles(interacting_particles)
+    double B0,
+    double V0, 
+    double d, 
+    vector<Particle> particles,
+    bool interacting_particles,
+    bool time_dependent_applied_potential,
+    double f,
+    double omega_v,
+    double t
+) :
+    B0(B0),
+    V0(V0),
+    d(d),
+    interacting_particles(interacting_particles),
+    time_dependent_applied_potential(time_dependent_applied_potential), 
+    f(f),
+    omega_v(omega_v), 
+    t(t)
    {
       if (!particles.empty()) {
          for (auto& particle : particles) {
             particle.in_trap = true;
          }
          this->particles = particles;
-      } 
+      } else {
+         this->particles = vector<Particle>();
+      }
+      
+      V0_d2 = 9.65;            // potential/d² in u / microsecond² e
+      
    }
 
 // ----------
@@ -85,9 +99,17 @@ void PenningTrap::add_particle(
  *   vec: the external electric field at point r=(x,y,z)
  */
 vec PenningTrap::external_E_field(
-   vec r                          // point (x,y,z)
+   vec r                           // point (x,y,z)
 ) {
-   return V0_d2 * vec({r(0), r(1), -2*r(2)});
+   if ( norm(r) > d ) {
+      return zeros<vec>(3);
+   } else {
+      double time_dependence = 1.;
+      if ( time_dependent_applied_potential ) {
+         time_dependence = ( 1 + ( f * cos(omega_v * t) )); 
+      } 
+      return V0_d2 * time_dependence * vec({r(0), r(1), -2*r(2)});
+   }
 }
 
 /**
@@ -102,7 +124,11 @@ vec PenningTrap::external_E_field(
 vec PenningTrap::external_B_field(
    vec r                          // point (x,y,z)
 ) {
-   return vec({0, 0, B0});
+   if ( norm(r) > d ) {
+      return zeros<vec>(3);
+   } else {
+      return vec({0, 0, B0});   
+   }
 }
 
 /**
@@ -128,7 +154,6 @@ vec PenningTrap::total_force_external(
    // calculate external electromagnetic field strength
    vec external_E = external_E_field(postition);
    vec external_B = external_B_field(postition);
-
    // calculate and return total force
    return charge  * (external_E + arma::cross(velocity, external_B));
 }
@@ -196,3 +221,22 @@ vec PenningTrap::total_force(
       return total_force_external(i);
    }
 } 
+
+int PenningTrap::num_particles() {
+
+   vector<Particle> temp_particles;
+   for ( int i = 0; i < particles.size(); i++ ) {
+      vec pos = particles[i].position;
+
+      if ( norm(pos) < d ) {
+         temp_particles.push_back(particles[i]);
+      } else {
+         particles[i].in_trap = false;
+      }
+   }
+
+   particles = temp_particles;
+
+   int num_particles = particles.size();
+   return num_particles;
+}

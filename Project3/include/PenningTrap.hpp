@@ -30,15 +30,27 @@ class PenningTrap {
         double V0_d2;                      // applied potential over d squared
         vector<Particle> particles;     // list of particles
         bool interacting_particles;      // flag if interacting particles
+        bool time_dependent_applied_potential;  // flag for time-dependent potential
+        double V0;                     // applied potential
+        double d;                      // characteristic length of the trap 
+        double f;                      // constant amplitude of time dependent potential
+        double omega_v;                // angular frequency of time dependent potential
+        double t;                       // time
 
         // --------------
         // Constructor
         // --------------
         PenningTrap(
-            double B0,                      // magnetic field strength, unit: Tesla      
-            double V0_d2,                   // applied potential over d squared
+            double B0,                      // magnetic field strength, unit: Tesla
+            double V0,                      // applied potential
+            double d,                       // characteristic length of the trap
             vector<Particle> particles,     // list of particles in the trap
-            bool interacting_particles      // flag if interacting particles
+            bool interacting_particles,     // flag if interacting particles
+            bool time_dependent_applied_potential = false,  // flag for time-dependent potential
+            // if time_dependent_applied_potential is true, V0_d2 is ignored and we need to pass V0, f, and omega_v
+            double f = 0.0,                 // constant amplitude of time dependent potential
+            double omega_v = 0.0,           // angular frequency of time dependent potential
+            double t = 0.0                  // time
         );
 
         // ----------
@@ -54,7 +66,7 @@ class PenningTrap {
 
         // Get the external electric field at point r=(x,y,z)
         vec external_E_field(
-            vec r                          // point (x,y,z)
+            vec r                          // point (x,y,z),
         );
         
         // Get the external magnetic field at point r=(x,y,z)
@@ -82,6 +94,9 @@ class PenningTrap {
         vec total_force(
             int i                           // force on particle_i
         );
+
+        // Calculate the number of particles in the trap |r| < d
+        int num_particles();
 };
 
 

@@ -26,26 +26,77 @@ using namespace std::complex_literals;
 
 
 // -------------------
-// define variables
+// define constants
 // -------------------
-// initial conditions particle 1
-double x_0 = 20.;                // initial position in x direction in microns
-double z_0 = 20.;                // initial position in z direction in microns
-vec r_0 = {x_0, 0., z_0};
-double yspeed_0 = 25.;           // initial velocity in y direction in microns/microseconds
-vec v_0 = {0., yspeed_0, 0.};
+// seed
+//int seed = 1;
+//::set_seed(seed);
 // particle parameters
 double q = 1.;                  // Ca+ charge in elementary charge
 double m_Ca = 40.078;           // Ca+ mass in u
 // trap parameters
 double B0 = 9.65*1e1;           // magnetic field strength in Tesla
-double V0_d2 = 9.65;            // potential/d² in u / microsecond² e
+double V0 = 2.41*1e6;            // applied potential
+double d = 500.;                  // characteristic length of the trap
+bool time_dependent_applied_potential = true;
 // simulation parameters
 double t_start = 0.;             // start time in microseconds
 double simulation_time = 50.;    // simulation time in microseconds
 
+
+vector<Particle> create_particles(int n_particles) {
+
+    vector<Particle> particles;
+    for (int i = 0; i < n_particles; ++i) {
+        vec r = vec(3).randn() * .1 * d;
+        vec v = vec(3).randn() * .1 * d;
+        Particle p = Particle(q, m_Ca, r, v, true);
+        particles.push_back(p);
+    }
+    return particles;
+}
+void fill_penningtrap(PenningTrap& trap, int n_particles) {
+
+    vector<Particle> particles = create_particles(n_particles);
+    for (int i = 0; i < particles.size(); ++i) {
+        trap.add_particle(particles[i]);
+    }
+}
+
+
 int main () {
 
-    
+    // variables
+    double f;
+    vec f_vec = {.1, .4, .7};
+    double omega_v;
+	vec omega_v_vec = regspace<vec>(0.2, 0.02, 2.5); // husk å reduser til 0.02
+    vector<Particle> particles;
+    bool interacting_particles = false;
+    int num_in_trap;
+    double frac_in_trap;
+
+
+    ostringstream oss;
+    int width = 15;
+    int prec = 8;
+    cout << "f,omega_v,frac_in_trap" << endl;
+    for (int i = 0; i < f_vec.size(); i++) {
+        f = f_vec(i);
+
+        for (int j = 0; j < omega_v_vec.size(); j++) {
+            omega_v = omega_v_vec(j);
+            particles = create_particles(100);
+            PenningTrap trap = PenningTrap(B0, V0, d, particles, interacting_particles, time_dependent_applied_potential, f, omega_v, t_start);
+            Solver solver = Solver("rk4", t_start, simulation_time, 16000);
+
+            solver.simulate(trap);
+            num_in_trap = trap.num_particles();
+            frac_in_trap = (double)num_in_trap / 100.;
+
+            cout << f << "," << omega_v << "," << frac_in_trap << endl;
+        }
+    }
+
     return 0;
 }

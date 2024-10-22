@@ -57,7 +57,7 @@ int main () {
 
     vector<Particle> particles = {p1};
     bool interacting_particles = false;
-    PenningTrap trap = PenningTrap(B0, V0_d2, particles, interacting_particles);
+    PenningTrap trap = PenningTrap(B0, .0, 500., particles, interacting_particles, false);
     trap.print_penningtrap();
 
     // ----------------------------
@@ -91,9 +91,9 @@ int main () {
     Particle p2 = Particle(q, m_Ca, r_0, v_0, false);
 
     particles = {p1, p2};
-    PenningTrap trap_wo_inter = PenningTrap(B0, V0_d2, particles, false);
+    PenningTrap trap_wo_inter = PenningTrap(B0, .0, 500., particles, interacting_particles, false);
     Solver solver_wo_inter = Solver(method, t_0, t_sim, n_steps);
-    PenningTrap trap_w_inter = PenningTrap(B0, V0_d2, particles, true);
+    PenningTrap trap_w_inter = PenningTrap(B0, .0, 500., particles, interacting_particles, false);
     Solver solver_w_inter = Solver(method, t_0, t_sim, n_steps);
 
     
@@ -168,13 +168,13 @@ int main () {
 
     cout << "START **** 03 Simulate for different number of steps ****" << endl;
 
-    p1 = Particle(q, m_Ca, r_0, v_0, false);
-    PenningTrap rk4_trap = PenningTrap(B0, V0_d2, {p1}, false);
-    PenningTrap fe_trap = PenningTrap(B0, V0_d2, {p1}, false);
-
     vec n_vals = {4000, 8000, 16000, 32000};
     
     for (int i = 0; i < n_vals.n_elem; ++i) {
+        p1 = Particle(q, m_Ca, r_0, v_0, false);
+        particles = {p1};
+        PenningTrap rk4_trap = PenningTrap(B0, .0, 500., particles, interacting_particles, false);
+        PenningTrap fe_trap = PenningTrap(B0, .0, 500., particles, interacting_particles, false);
         n_steps = n_vals(i);
         cout << "n_steps: " << n_steps << endl;
         oss.str("");
