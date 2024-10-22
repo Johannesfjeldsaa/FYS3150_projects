@@ -18,7 +18,6 @@ using namespace arma;
 
 
 // define constants
-const double pi = M_PI;
 
 int main () {
 

@@ -27,13 +27,16 @@ Particle::Particle(
       double q,                   // charge, unit: Coulomb
       double m,                   // mass, unit: atomic mass unit
       vec position,               // position vector, unit: micrometer
-      vec velocity                // velocity vector, unit: micrometer/microsecond
+      vec velocity,               // velocity vector, unit: micrometer/microsecond
+      bool in_trap                // flag if particle is in the trap
    ) : 
       q(q), 
       m(m), 
       position(position), 
-      velocity(velocity) 
+      velocity(velocity),
+      in_trap(false)
    {
+      initial_position = position;
    }
 
 // ----------
@@ -43,6 +46,8 @@ Particle::Particle(
 void Particle::print_particle() const {
    cout << "charge, q: " << q << endl;
    cout << "mass, m: " << m << endl;
-   cout << "position, position: " << endl << position << endl;
-   cout << "velocity, velocity: " << endl << velocity << endl;
+   cout << "position: " << endl << position << endl;
+   cout << "velocity: " << endl << velocity << endl;
+   cout << "in_trap: " << in_trap << endl;
 }
+

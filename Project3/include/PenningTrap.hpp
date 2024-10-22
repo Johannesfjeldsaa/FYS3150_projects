@@ -27,18 +27,18 @@ class PenningTrap {
         // variables
         // ------------
         double B0;                      // magnetic field strength, unit: Tesla
-        double V0;                      // applied potential, unit: milliVolts
-        double d;                       // characteristic dimension, unit: micrometers
+        double V0_d2;                      // applied potential over d squared
         vector<Particle> particles;     // list of particles
+        bool interacting_particles;      // flag if interacting particles
 
         // --------------
         // Constructor
         // --------------
         PenningTrap(
             double B0,                      // magnetic field strength, unit: Tesla      
-            double V0,                      // applied potential, unit: milliVolts
-            double d,                       // characteristic dimension, unit: micrometers
-            vector<Particle> particles      // list of particles
+            double V0_d2,                   // applied potential over d squared
+            vector<Particle> particles,     // list of particles in the trap
+            bool interacting_particles      // flag if interacting particles
         );
 
         // ----------
@@ -82,12 +82,6 @@ class PenningTrap {
         vec total_force(
             int i                           // force on particle_i
         );
-        
-        // Evolve the system one time step (dt) using Runge-Kutta 4th order
-        void evolve_RK4(double dt);
-
-        // Evolve the system one time step (dt) using Forward Euler
-        void evolve_forward_Euler(double dt);
 };
 
 

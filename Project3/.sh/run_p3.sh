@@ -70,8 +70,7 @@ run_program() {
     fi
 }
 
-run_program "problem2" "../output/problem2data.out" --write-errors-separately
-run_program "problem3" "../output/problem3data.out" --write-errors-separately
-run_program "problem4" "../output/problem4data.out" --write-errors-separately
-run_program "problem5" "../output/problem5data.out" --write-errors-separately
-run_program "problem6" "../output/problem6data.out" --write-errors-separately
+#run_program "test" "../output/test.out" --write-errors-separately
+#run_program "problem_8" "../output/problem_8.out" --write-errors-separately
+run_program "problem_9" "../output/problem_9.out" --write-errors-separately
+

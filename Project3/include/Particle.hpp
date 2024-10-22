@@ -27,8 +27,15 @@ class Particle {
         // ------------
         double q;                   // charge, unit: Coulomb
         double m;                   // mass, unit: atomic mass unit
+        double omega_0;             // trap frequency
+        double omega_z;             // trap frequency
+        double omega_p;             // 
+        double omega_n;             //
         vec position;               // position vector, unit: micrometer
+        vec initial_position;       // copy of position at initialization
         vec velocity;               // velocity vector, unit: micrometer/microsecond
+        bool in_trap;               // flag if particle is in the trap defoult: false
+
 
         // --------------
         // Constructor
@@ -37,13 +44,14 @@ class Particle {
             double q,                   // charge, unit: Coulomb
             double m,                   // mass, unit: atomic mass unit
             vec position,               // position vector, unit: micrometer
-            vec velocity                // velocity vector, unit: micrometer/microsecond
-            );
+            vec velocity,               // velocity vector, unit: micrometer/microsecond
+            bool in_trap                // flag if particle is in the trap
+        );
         
         // ----------
         // Methods
         // ----------    
-            // Print the particle
+        // Print the particle
         void print_particle() const;
 };
 
