@@ -41,7 +41,7 @@ double d = 500.;                  // characteristic length of the trap
 bool time_dependent_applied_potential = true;
 // simulation parameters
 double t_start = 0.;             // start time in microseconds
-double simulation_time = 50.;    // simulation time in microseconds
+double simulation_time = 500.;    // simulation time in microseconds
 
 
 vector<Particle> create_particles(int n_particles) {
@@ -69,8 +69,10 @@ int main () {
     // variables
     double f;
     vec f_vec = {.1, .4, .7};
+    //vec f_vec = {.7};
     double omega_v;
-	vec omega_v_vec = regspace<vec>(0.2, 0.02, 2.5); // husk å reduser til 0.02
+	vec omega_v_vec = regspace<vec>(0.2, 0.02, 2.5); // for full range scan
+    //vec omega_v_vec = regspace<vec>(2.12, 0.01, 2.24); // for finer range
     vector<Particle> particles;
     bool interacting_particles = false;
     int num_in_trap;
@@ -80,7 +82,7 @@ int main () {
     ostringstream oss;
     int width = 15;
     int prec = 8;
-    cout << "f,omega_v,frac_in_trap" << endl;
+    cout << "interactions,f,omega_v,frac_in_trap" << endl;
     for (int i = 0; i < f_vec.size(); i++) {
         f = f_vec(i);
 
@@ -94,7 +96,7 @@ int main () {
             num_in_trap = trap.num_particles();
             frac_in_trap = (double)num_in_trap / 100.;
 
-            cout << f << "," << omega_v << "," << frac_in_trap << endl;
+            cout << interacting_particles <<"," << f << "," << omega_v << "," << frac_in_trap << endl;
         }
     }
 
