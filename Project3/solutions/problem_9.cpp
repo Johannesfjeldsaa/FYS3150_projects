@@ -68,13 +68,13 @@ int main () {
 
     // variables
     double f;
-    vec f_vec = {.1, .4, .7};
-    //vec f_vec = {.7};
+    //vec f_vec = {.1, .4, .7};
+    vec f_vec = {.4};
     double omega_v;
-	vec omega_v_vec = regspace<vec>(0.2, 0.02, 2.5); // for full range scan
-    //vec omega_v_vec = regspace<vec>(2.12, 0.01, 2.24); // for finer range
+	//vec omega_v_vec = regspace<vec>(0.2, 0.02, 2.5); // for full range scan
+    vec omega_v_vec = regspace<vec>(0.64, 0.01, .74); // for finer range
     vector<Particle> particles;
-    bool interacting_particles = false;
+    bool interacting_particles = true;
     int num_in_trap;
     double frac_in_trap;
 
