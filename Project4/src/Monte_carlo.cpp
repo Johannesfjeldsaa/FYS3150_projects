@@ -20,3 +20,10 @@
 // --------------------
 using namespace std;
 using namespace arma;
+
+int main() {
+
+    cout << "my name is Jeff" << endl;
+
+    return 0;
+}
