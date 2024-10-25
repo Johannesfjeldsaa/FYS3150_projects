@@ -71,6 +71,6 @@ run_program() {
 }
 
 #run_program "test" "../output/test.out" --write-errors-separately
-#run_program "problem_8" "../output/problem_8.out" --write-errors-separately
-run_program "problem_9" "../output/problem_9.out" --write-errors-separately
+run_program "problem_8" "../output/problem_8.out" --write-errors-separately
+#run_program "problem_9" "../output/problem_9.out" --write-errors-separately
 

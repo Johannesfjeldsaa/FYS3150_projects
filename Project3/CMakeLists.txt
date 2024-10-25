@@ -32,12 +32,12 @@ endforeach()
 #####################################################################################
 
 #add_executable(test solutions/test.cpp)
-#add_executable(problem_8 solutions/problem_8.cpp)
-add_executable(problem_9 solutions/problem_9.cpp)
+add_executable(problem_8 solutions/problem_8.cpp)
+#add_executable(problem_9 solutions/problem_9.cpp)
 #add_executable(main solutions/main.cpp)
 
 
-foreach(exec problem_9)#test problem_8)# main)
+foreach(exec problem_8)#test problem_9)
     target_compile_options(${exec} PRIVATE -O2)
     target_link_libraries(${exec}
         Particle_lib
@@ -50,6 +50,6 @@ foreach(exec problem_9)#test problem_8)# main)
 endforeach()
 
 
-foreach(exec problem_9)#test problem_8)# main)
+foreach(exec problem_8)#test problem_9)
     target_compile_definitions(${exec} PRIVATE ARMA_USE_LAPACK ARMA_USE_BLAS)
 endforeach()

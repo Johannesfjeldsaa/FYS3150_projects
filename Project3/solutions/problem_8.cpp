@@ -86,14 +86,14 @@ int main () {
     cout << "END **** 01 Simulate single particle for 50 miroseconds ****" << endl;
 
     cout << endl <<"START **** 02a Simulate two particles for 50 miroseconds with and without interacting ****" << endl;
-    vec r_0 = {25., 25., 0.};
-    vec v_0 = {0., 40., 5.};
-    Particle p2 = Particle(q, m_Ca, r_0, v_0, false);
+    vec r_02 = {25., 25., 0.};
+    vec v_02 = {0., 40., 5.};
+    Particle p2 = Particle(q, m_Ca, r_02, v_02, false);
 
     particles = {p1, p2};
-    PenningTrap trap_wo_inter = PenningTrap(B0, .0, 500., particles, interacting_particles, false);
+    PenningTrap trap_wo_inter = PenningTrap(B0, .0, 500., particles, false, false);
     Solver solver_wo_inter = Solver(method, t_0, t_sim, n_steps);
-    PenningTrap trap_w_inter = PenningTrap(B0, .0, 500., particles, interacting_particles, false);
+    PenningTrap trap_w_inter = PenningTrap(B0, .0, 500., particles, true, false);
     Solver solver_w_inter = Solver(method, t_0, t_sim, n_steps);
 
     
